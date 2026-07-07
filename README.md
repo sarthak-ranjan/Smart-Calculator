@@ -5,13 +5,13 @@ A modern, responsive, and feature-rich calculator built using **HTML5, CSS3, and
 Unlike a traditional calculator, Smart Calculator combines multiple productivity tools into a single application, including scientific calculations, programmer utilities, voice input, unit conversion, dynamic themes, and interactive graph plotting.
 
 ---
-
+   
 
 ## 🚀 Live Demo
 
-Visit the live calculator here: [https://sarthak-calculator.netlify.app](https://sarthak-calculator.netlify.app)
-
-*Or deploy your own using GitHub Pages, Netlify, or Vercel*
+Visit the live calculator here: 
+- [GitHub Pages](https://sarthak-ranjan.github.io/Smart-Calculator/)
+- [Netlify](https://sarthak-calculator.netlify.app)
 
 ---
 
@@ -232,9 +232,9 @@ B.Tech Computer Science (AI & Data Science)
 Web Development Intern
 
 GitHub:
-https://github.com/yourusername
+https://github.com/sarthak-ranjan
 
 LinkedIn:
-https://linkedin.com/in/yourprofile
+https://www.linkedin.com/in/sarthak-ranjan-733a08307/
 
 ---
