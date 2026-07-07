@@ -1,4 +1,4 @@
-# 🧮 Smart Calculator 2.0
+# ![icon](image.png)Smart Calculator 2.0
 
 A modern, responsive, and feature-rich calculator built using **HTML5, CSS3, and Vanilla JavaScript**. This project was developed as part of my Web Development Internship to demonstrate frontend development skills, modern UI design, browser APIs, and interactive web application development.
 
@@ -230,9 +230,9 @@ B.Tech Computer Science (AI & Data Science)
 Web Development Intern
 
 GitHub:
-https://github.com/yourusername
+https://github.com/sarthak-ranjan
 
 LinkedIn:
-https://linkedin.com/in/yourprofile
+https://www.linkedin.com/in/sarthak-ranjan-733a08307/
 
 ---
