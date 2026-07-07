@@ -5,7 +5,7 @@ A modern, responsive, and feature-rich calculator built using **HTML5, CSS3, and
 Unlike a traditional calculator, Smart Calculator combines multiple productivity tools into a single application, including scientific calculations, programmer utilities, voice input, unit conversion, dynamic themes, and interactive graph plotting.
 
 ---
-
+   
 
 ## 🚀 Live Demo
 
