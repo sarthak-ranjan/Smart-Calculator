@@ -9,7 +9,9 @@ Unlike a traditional calculator, Smart Calculator combines multiple productivity
 
 ## 🚀 Live Demo
 
-https://your-live-link.com
+Visit the live calculator here: [https://sarthak-calculator.netlify.app](https://sarthak-calculator.netlify.app)
+
+*Or deploy your own using GitHub Pages, Netlify, or Vercel*
 
 ---
 

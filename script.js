@@ -47,7 +47,9 @@ class Calculator {
                 .replace(/÷/g, '/')
                 .replace(/−/g, '-')
                 .replace(/π/g, 'Math.PI')
-                .replace(/e/g, 'Math.E')
+                .replace(/([^0-9])e([^0-9])/g, '$1Math.E$2') // Only replace 'e' not in scientific notation
+                .replace(/^e([^0-9])/g, 'Math.E$1') // e at start of expression
+                .replace(/([^0-9])e$/g, '$1Math.E') // e at end of expression
                 .replace(/sin⁻¹\(/g, 'Math.asin(')
                 .replace(/cos⁻¹\(/g, 'Math.acos(')
                 .replace(/tan⁻¹\(/g, 'Math.atan(')
@@ -65,17 +67,29 @@ class Calculator {
                 return r;
             });
 
+            // Implicit multiplication
+            parseExpr = parseExpr.replace(/(\d)\(/g, '$1*(');
+            parseExpr = parseExpr.replace(/\)(\d)/g, ')*$1');
+            parseExpr = parseExpr.replace(/(\d)Math/g, '$1*Math');
+            parseExpr = parseExpr.replace(/\)Math/g, ')*Math');
+
             // Handle power
             parseExpr = parseExpr.replace(/\^/g, '**');
 
             // Handle percent
+            parseExpr = parseExpr.replace(/%(\d)/g, '/100*$1');
             parseExpr = parseExpr.replace(/%/g, '/100');
             
             // Use Function for safe evaluation instead of eval() directly
             const result = new Function('return ' + parseExpr)();
             
-            if (result === Infinity || isNaN(result)) {
+            if (result === Infinity || result === -Infinity || isNaN(result)) {
                 throw new Error("Math Error");
+            }
+
+            // Check for unreasonably large numbers
+            if (Math.abs(result) > 1e15) {
+                throw new Error("Number too large");
             }
 
             // Fix floating point precision
@@ -103,7 +117,9 @@ class Calculator {
                 .replace(/÷/g, '/')
                 .replace(/−/g, '-')
                 .replace(/π/g, 'Math.PI')
-                .replace(/e/g, 'Math.E')
+                .replace(/([^0-9])e([^0-9])/g, '$1Math.E$2') // Only replace 'e' not in scientific notation
+                .replace(/^e([^0-9])/g, 'Math.E$1') // e at start of expression
+                .replace(/([^0-9])e$/g, '$1Math.E') // e at end of expression
                 .replace(/sin⁻¹\(/g, 'Math.asin(')
                 .replace(/cos⁻¹\(/g, 'Math.acos(')
                 .replace(/tan⁻¹\(/g, 'Math.atan(')
@@ -119,11 +135,21 @@ class Calculator {
                 for(let i = 1; i <= parseInt(num); i++) r *= i;
                 return r;
             });
+            // Implicit multiplication
+            parseExpr = parseExpr.replace(/(\d)\(/g, '$1*(');
+            parseExpr = parseExpr.replace(/\)(\d)/g, ')*$1');
+            parseExpr = parseExpr.replace(/(\d)Math/g, '$1*Math');
+            parseExpr = parseExpr.replace(/\)Math/g, ')*Math');
+
             parseExpr = parseExpr.replace(/\^/g, '**');
+            parseExpr = parseExpr.replace(/%(\d)/g, '/100*$1');
             parseExpr = parseExpr.replace(/%/g, '/100');
             
             const result = new Function('return ' + parseExpr)();
-            if (result === Infinity || isNaN(result) || result === undefined || typeof result !== 'number') return '';
+            if (result === Infinity || result === -Infinity || isNaN(result) || result === undefined || typeof result !== 'number') return '';
+            
+            // Check for unreasonably large numbers
+            if (Math.abs(result) > 1e15) return '';
             
             const cleanResult = Math.round(result * 10000000000) / 10000000000;
             return cleanResult.toString();
@@ -844,6 +870,26 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     });
 });
 
+// ---------------------------
+// MOBILE MENU TOGGLE
+// ---------------------------
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+const tabsContainer = document.querySelector('.tabs-container');
+if (mobileMenuBtn && tabsContainer) {
+    mobileMenuBtn.addEventListener('click', () => {
+        tabsContainer.classList.toggle('active');
+    });
+
+    // Close the menu when a tab is clicked on mobile
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                tabsContainer.classList.remove('active');
+            }
+        });
+    });
+}
+
 
 // ---------------------------
 // THEME-SPECIFIC LIVE BACKGROUND
@@ -1063,29 +1109,25 @@ window.addEventListener('load', () => {
 // LIVE CLOCK LOGIC
 // ---------------------------
 function updateLiveClock() {
-    const clockTime = document.getElementById('clock-time');
-    const clockDate = document.getElementById('clock-date');
-    if (!clockTime || !clockDate) return;
+    const clockTimes = document.querySelectorAll('.clock-time');
+    const clockDates = document.querySelectorAll('.clock-date');
+    if (clockTimes.length === 0 || clockDates.length === 0) return;
 
     const now = new Date();
     
     let hours = now.getHours();
-    let minutes = now.getMinutes();
-    let seconds = now.getSeconds();
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
     const ampm = hours >= 12 ? 'PM' : 'AM';
     hours = hours % 12;
     hours = hours ? hours : 12; 
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    seconds = seconds < 10 ? '0' + seconds : seconds;
-    
-    const timeStr = `${hours}:${minutes}:${seconds} ${ampm}`;
-    
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const dateStr = `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+    const timeStr = `${hours}:${minutes}:${seconds} ${ampm}`;
     
-    clockTime.innerText = timeStr;
-    clockDate.innerText = dateStr;
+    clockTimes.forEach(el => el.innerText = timeStr);
+    clockDates.forEach(el => el.innerText = dateStr);
 }
 setInterval(updateLiveClock, 1000);
 updateLiveClock();
@@ -1136,10 +1178,10 @@ function toggleProfileModal() {
         }
     }
 }
+document.querySelectorAll('.profile-btn').forEach(btn => {
+    btn.addEventListener('click', toggleProfileModal);
+});
 
-if (headerProfileBtn) {
-    headerProfileBtn.addEventListener('click', toggleProfileModal);
-}
 if (closeProfileBtn) {
     closeProfileBtn.addEventListener('click', toggleProfileModal);
 }
@@ -1422,8 +1464,8 @@ if (progEqualsBtn) {
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
-            .then(registration => console.log('ServiceWorker registered'))
-            .catch(err => console.log('ServiceWorker failed: ', err));
+            .then(registration => { /* PWA installed */ })
+            .catch(err => { /* Silent fail */ });
     });
 }
 
