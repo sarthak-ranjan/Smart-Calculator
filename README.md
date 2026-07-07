@@ -9,7 +9,7 @@ Unlike a traditional calculator, Smart Calculator combines multiple productivity
 
 ## 🚀 Live Demo
 
-https://your-live-link.com
+https://sarthak-ranjan.github.io/Smart-Calculator/
 
 ---
 
