@@ -1,4 +1,4 @@
-# ![icon](image.png)Smart Calculator 2.0
+# ![icon](icon.png)Smart Calculator 2.0
 
 A modern, responsive, and feature-rich calculator built using **HTML5, CSS3, and Vanilla JavaScript**. This project was developed as part of my Web Development Internship to demonstrate frontend development skills, modern UI design, browser APIs, and interactive web application development.
 
