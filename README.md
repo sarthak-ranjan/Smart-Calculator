@@ -11,7 +11,7 @@ Unlike a traditional calculator, Smart Calculator combines multiple productivity
 
 Visit the live calculator here: 
 - [GitHub Pages](https://sarthak-ranjan.github.io/Smart-Calculator/)
-- [Netlify](https://sarthak-calculator.netlify.app)
+- [Netlify](https://smart-calculator-sarthak.netlify.app/)
 
 ---
 
